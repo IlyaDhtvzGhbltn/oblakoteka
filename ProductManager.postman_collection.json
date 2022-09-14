@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "0abe6ce0-e8bb-4277-aebf-278718931e83",
+		"name": "ProductManager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4507102"
+	},
+	"item": [
+		{
+			"name": "get products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44385/api/v1/product?name=NewTextName",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44385",
+					"path": [
+						"api",
+						"v1",
+						"product"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "NewTextName"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\":\"TextName\", \r\n    \"Description\":\"bla-bla\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44385/api/v1/product",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44385",
+					"path": [
+						"api",
+						"v1",
+						"product"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "1751955975",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ProductID\":\"52565089-1A3F-483C-97CA-086C263A0E1E\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44385/api/v1/product",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44385",
+					"path": [
+						"api",
+						"v1",
+						"product"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "1751955975",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit product",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ProductID\":\"df333c29-e055-4da4-957f-08da969acaa1\",\r\n    \"Name\":\"NewTextName\", \r\n    \"Description\":\"new bla-bla22\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44385/api/v1/product",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44385",
+					"path": [
+						"api",
+						"v1",
+						"product"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "1751955975",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
