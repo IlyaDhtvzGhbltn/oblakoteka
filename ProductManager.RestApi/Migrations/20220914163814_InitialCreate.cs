@@ -48,6 +48,12 @@ namespace ProductManager.RestApi.v1.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.ID);
                 });
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Name",
+                table: "Products",
+                column: "Name",
+                null,
+                true);
             #endregion
             #region ProductVersions_dbo
 
@@ -83,7 +89,9 @@ namespace ProductManager.RestApi.v1.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ProductVersions_Name",
                 table: "ProductVersions",
-                column: "Name");            
+                column: "Name", 
+                null, 
+                true);            
             
             migrationBuilder.CreateIndex(
                 name: "IX_ProductVersions_CreatingDate",
@@ -112,6 +120,39 @@ namespace ProductManager.RestApi.v1.Migrations
             
             migrationBuilder.Sql(modifyProductsTrigger);
             migrationBuilder.Sql(modifyProductVersionsTrigger);
+
+            // This function could be called via this statment : select * from testFunc('-18', '-', 70, 80)
+
+            string storedFunction = @"CREATE FUNCTION testFunc (@productName varchar(255), @productVersionName varchar(255), @minVolume int, @maxVolume int)
+                                    RETURNS TABLE
+                                    AS
+                                    RETURN
+                                    (
+	                                    SELECT v.ID, p.NAME as ProductName, v.NAME as ProductVersionName, v.LENGTH, v.WIDTH, v.HEIGHT FROM PRODUCTS AS p
+	                                    JOIN PRODUCTVERSIONS AS v ON p.ID = V.PRODUCTID 
+	                                    WHERE p.NAME LIKE '%' + @productName + '%' AND 
+	                                    v.NAME LIKE '%' +  @productVersionName + '%' AND 
+	                                    (v.Length * v.Width * v.Height) > @minVolume AND
+	                                    (v.Length * v.Width * v.Height) < @maxVolume
+                                    )";
+            migrationBuilder.Sql(storedFunction);
+
+
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < 100; i++)
+            {
+                Guid productID = Guid.NewGuid();
+                string insertProductCommand = $"INSERT INTO Products(ID, Name) values ('{productID}', '{productID.GetHashCode().ToString()}')";
+                migrationBuilder.Sql(insertProductCommand);
+
+                int version = rnd.Next(1, 5);
+                for (int j = 0; j < version; j++) 
+                {
+                    Guid productVersionID = Guid.NewGuid();
+                    string insertProductVersionCommand = $"INSERT INTO ProductVersions (ID, ProductID, Name, Width, Height, Length) VALUES ('{productVersionID}', '{productID}', '{productVersionID.GetHashCode()}', {rnd.Next(1,10)}, {rnd.Next(1, 10)}, {rnd.Next(1, 10)})";
+                    migrationBuilder.Sql(insertProductVersionCommand);
+                }
+            }
 
         }
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-
+using System;
 
 namespace ProductManager.Entities
 {
@@ -17,14 +17,6 @@ namespace ProductManager.Entities
             base.Database.EnsureDeleted();
             var migrator = base.Database.GetService<IMigrator>();
             migrator.Migrate();
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {         
-
-
-            //modelBuilder.Entity<ProductVersion>()
-            //    .HasIndex(i => i.Length);
         }
     }
 }
