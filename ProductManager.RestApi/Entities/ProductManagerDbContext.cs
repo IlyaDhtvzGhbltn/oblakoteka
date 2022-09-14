@@ -14,7 +14,7 @@ namespace ProductManager.Entities
 
         public ProductManagerDbContext(DbContextOptions<ProductManagerDbContext> opt): base(opt)
         {
-            base.Database.EnsureDeleted();
+            //base.Database.EnsureDeleted();
             var migrator = base.Database.GetService<IMigrator>();
             migrator.Migrate();
         }
