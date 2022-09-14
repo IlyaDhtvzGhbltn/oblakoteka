@@ -5,6 +5,12 @@ namespace ProductManager.RestApi.v1.Migrations
 {
     public partial class InitialCreate : Migration
     {
+        private readonly string _triggerTemplate = 
+            @"CREATE TRIGGER {0} ON {1} AFTER {2}
+            AS BEGIN
+                INSERT INTO EventLog(ID, Description) VALUES(NEWID(), '{3}')
+            END";
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
 
@@ -14,7 +20,7 @@ namespace ProductManager.RestApi.v1.Migrations
                 name: "EventLog",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
+                    ID = table.Column<Guid>(nullable: false, defaultValue: Guid.NewGuid()),
                     EventDate = table.Column<DateTime>(nullable: false, defaultValue: DateTime.Now),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -100,6 +106,12 @@ namespace ProductManager.RestApi.v1.Migrations
                 column: "Length");
             #endregion
 
+
+            string modifyProductsTrigger = string.Format(_triggerTemplate, "TR_Products_Modify", "Products", "INSERT, DELETE, UPDATE", "Product table has been modified.");
+            string modifyProductVersionsTrigger = string.Format(_triggerTemplate, "TR_ProductVersions_Modify", "ProductVersions", "INSERT, DELETE, UPDATE", "Product Versions table has been modified.");
+            
+            migrationBuilder.Sql(modifyProductsTrigger);
+            migrationBuilder.Sql(modifyProductVersionsTrigger);
 
         }
 
